@@ -1,50 +1,49 @@
-# Retrieval Project with LangChain, FAISS, and HuggingFace Embeddings
+# Vectorstore & Embeddings Project
 
-This project demonstrates how to perform semantic search over a set of documents using the LangChain framework, FAISS vector store, and HuggingFace sentence embeddings.
+This project demonstrates how to process a PDF document, split its content into manageable text chunks, generate embeddings using a HuggingFace model, and store these embeddings in a FAISS vectorstore for efficient similarity search. The implementation uses the LangChain library for document loading, text splitting, and embedding generation.
 
 ## Features
-- Loads a FAISS vector store containing document embeddings.
-- Uses HuggingFace's `all-MiniLM-L6-v2` model for embedding queries and documents.
-- Performs similarity search to retrieve the most relevant documents for a given query.
-
-## Project Structure
-```
-main.py                # Main script to perform the search
-mi_vectorstore/        # Directory containing FAISS index and metadata
-    index.faiss        # FAISS index file
-    index.pkl          # Pickle file with document metadata
-```
+- **PDF Loading:** Loads a PDF file (`documento.pdf`) and extracts its content.
+- **Text Splitting:** Splits the document into overlapping chunks for better embedding and retrieval performance.
+- **Embeddings:** Uses the HuggingFace model `all-MiniLM-L6-v2` to generate vector representations of text chunks.
+- **Vectorstore:** Stores the embeddings in a FAISS vectorstore for fast similarity search and retrieval.
+- **Persistence:** Saves the vectorstore locally for later use.
 
 ## Requirements
 - Python 3.8+
-- `langchain_community`
-- `faiss-cpu` or `faiss-gpu`
-- `sentence-transformers`
+- [LangChain](https://python.langchain.com/)
+- [FAISS](https://github.com/facebookresearch/faiss)
+- [HuggingFace Transformers](https://huggingface.co/transformers/)
 
 Install dependencies with:
 ```bash
-pip install langchain_community faiss-cpu sentence-transformers
+pip install langchain faiss-cpu sentence-transformers
 ```
 
 ## Usage
-1. Ensure you have a FAISS vector store created in the `mi_vectorstore` directory.
-2. Run the main script:
-```bash
-python main.py
-```
-3. The script will output the most relevant documents for the hardcoded query:
-```
-¿Qué dice el documento sobre la privacidad?
-```
+1. Place your PDF file in the project directory and name it `documento.pdf` (or change the filename in `main.py`).
+2. Run the script:
+   ```bash
+   python main.py
+   ```
+3. The script will:
+   - Load and split the PDF.
+   - Generate embeddings for each chunk.
+   - Store the embeddings in a FAISS vectorstore saved as `mi_vectorstore/`.
 
-## How It Works
-- The script loads the FAISS vector store and the HuggingFace embedding model.
-- It embeds the query and retrieves the most similar documents from the vector store.
-- The results are printed to the console.
+## File Structure
+- `main.py`: Main script for processing the PDF and creating the vectorstore.
+- `documento.pdf`: The PDF document to be processed.
+- `mi_vectorstore/`: Directory containing the FAISS index and metadata.
 
 ## Customization
-- To change the query, modify the `query` variable in `main.py`.
-- To use a different embedding model, change the `model_name` parameter in the `HuggingFaceEmbeddings` initialization.
+- **Chunk Size & Overlap:** Adjust `chunk_size` and `chunk_overlap` in `main.py` for different splitting strategies.
+- **Model Selection:** Change the `model_name` in `HuggingFaceEmbeddings` to use a different embedding model.
+
+## Applications
+- Semantic search over PDF documents
+- Information retrieval
+- Document similarity and clustering
 
 ## License
-This project is for educational purposes.
+This project is for educational purposes. Please check the licenses of the libraries and models used for production use.
